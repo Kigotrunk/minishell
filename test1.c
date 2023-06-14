@@ -3,32 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   test1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 23:49:35 by marvin            #+#    #+#             */
-/*   Updated: 2023/06/13 23:49:35 by marvin           ###   ########.fr       */
+/*   Created: 2023/06/14 17:58:25 by kortolan          #+#    #+#             */
+/*   Updated: 2023/06/14 19:05:29 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    prompt()
+int	main(void)
 {
     char    *tmp;
     char    **cmd;
+	int		x;
 
-    while (tmp = get_next_line(0) != 0)
+	
+	write(1, "~$ ", 3);
+    while ((tmp = get_next_line(0)))
     {
-        printf("cmd %s\n", tmp);
-        write(1, "~$ ", 3);
-        if (cmd = EOF)
+		x = 0;
+        //printf("cmd %s\n", tmp);
+		
+        /*if (cmd == EOF)
         {
             write(1, "exit\n", 5);
             exit(1);
-        }
-        cmd = ft_split(tmp, " ");
+        }*/
+        cmd = ft_split(tmp, ' ');
+		while (cmd[x])
+		{
+			printf("%s\n", cmd[x]);
+			x++;
+		}
         if (builtin(cmd[0]) == 1)
             do_builtin(cmd);
+		write(1, "~$ ", 3);
     }
     
 }
@@ -42,16 +52,24 @@ void    builtins_cd(const char *path)
         perror("path");
 }
 
-void    builtins_pwd()
+void    builtins_pwd(char **cmd)
 {
     char    *pwd;
 
-    pwd = (char *)malloc(PATH_MAX * sizeof(char));
-    pwd = getcwd(pwd, PATH_MAX);
-    if (pwd == NULL)
-        perror("path");
-    else
-        printf("%s\n", pwd);
+	if (cmd[1])
+	{
+		write(1, "too many arguments\n", 19);
+		return ;
+	}
+	else
+	{
+    	pwd = (char *)malloc(2048 * sizeof(char));
+    	pwd = getcwd(pwd, 2048);
+    	if (pwd == NULL)
+       		perror("path");
+    	else
+        	printf("%s\n", pwd);
+	}
 }
 
 // echo cd pwd export unset env exit
@@ -62,9 +80,9 @@ int builtin(char *cmd)
     int     i;
 
     i = 0;
-    all_cmd = malloc(ft_strlen("echo cd pwd export unset env exit") * sizeof(char));
-    all_cmd = "echo cd pwd export unset env exit";
-    tab_cmd = ft_split(all_cmd, " ");
+    all_cmd = malloc(ft_strlen("echo cd pwd export unset env exit PWD") * sizeof(char));
+    all_cmd = "echo cd pwd export unset env exit PWD";
+    tab_cmd = ft_split(all_cmd, ' ');
     while (tab_cmd[i])
     {
         if (ft_strncmp(tab_cmd[i], cmd, ft_strlen(cmd)) == 0)
@@ -76,9 +94,8 @@ int builtin(char *cmd)
 
 void    do_builtin(char **cmd)
 {
-    if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd)) == 0)
+    if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])) == 0)
         builtins_cd(cmd[1]);
-    if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd)) == 0)
-        builtins_pwd();
-    
+    if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0 || ft_strncmp(cmd[0], "PWD", ft_strlen(cmd[0])) == 0)
+        builtins_pwd(cmd);
 }
