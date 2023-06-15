@@ -41,10 +41,28 @@ void    builtins_pwd(char **cmd)
 	}
 }
 
-void    builtins_env(char **envp)
+void    builtins_env(char **env)
 {
-    char    **env;
-    int     i;
+	int	x;
 
-    env = new_env(envp);
+	x = 0;
+	while (env[x])
+	{
+		printf("%s\n");
+		x++;
+	}
+}
+
+void	builtins_unset(char **env, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if(!strncmp(env[i], var, ft_strlen(var)))
+		{
+
+		}
+	}
 }

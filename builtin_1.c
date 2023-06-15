@@ -32,12 +32,12 @@ int builtin(char *cmd)
     return (0);
 }
 
-void    do_builtin(char **cmd)
+void    do_builtin(char **cmd, char **env)
 {
     if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])) == 0)
         builtins_cd(cmd[1]);
     if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0 || ft_strncmp(cmd[0], "PWD", ft_strlen(cmd[0])) == 0)
         builtins_pwd(cmd);
     if (ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])) == 0)
-        builtin_env();
+        builtin_env(env);
 }

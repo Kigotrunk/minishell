@@ -24,7 +24,7 @@
 void    builtins_cd(const char *path);
 void    builtins_pwd(char **cmd);
 int     builtin(char *cmd);
-void    do_builtin(char **cmd);
+void    do_builtin(char **cmd, char **env);
 char    **new_env(char **envp);
 void    builtins_env(char **envp);
 

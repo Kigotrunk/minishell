@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
     char    *tmp;
     char    **cmd;
+    char    **env;
 	int		x;
 
 	
@@ -31,13 +32,14 @@ int	main(int argc, char **argv, char **envp)
             exit(1);
         }*/
         cmd = ft_split(tmp, ' ');
+        env = new_env(envp);
 		while (cmd[x])
 		{
 			printf("%s\n", cmd[x]);
 			x++;
 		}
         if (builtin(cmd[0]) == 1)
-            do_builtin(cmd);
+            do_builtin(cmd, env);
         /*else
             pipex();*/
 		write(1, "~$ ", 3);

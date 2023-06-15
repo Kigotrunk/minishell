@@ -17,6 +17,11 @@ char    **new_env(char **envp)
     while (envp[i])
         i++;
     env = malloc((i + 1) * sizeof(char *));
+    if (!env)
+    {
+        perror("malloc env : ");
+        exit(-1);
+    }
     i = 0;
     while (envp[i])
     {
