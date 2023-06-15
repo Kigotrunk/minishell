@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    builtins_cd(const char *path)
+void    builtin_cd(const char *path)
 {
     int i;
 
@@ -21,48 +21,79 @@ void    builtins_cd(const char *path)
         perror("path");
 }
 
-void    builtins_pwd(char **cmd)
+void    builtin_pwd(char **cmd)
 {
     char    *pwd;
 
-	if (cmd[1])
+	(void)cmd;
+	/*if (cmd[1])
 	{
 		write(1, "too many arguments\n", 19);
 		return ;
-	}
-	else
-	{
+	}*/
+
     	pwd = (char *)malloc(2048 * sizeof(char));
     	pwd = getcwd(pwd, 2048);
     	if (pwd == NULL)
        		perror("path");
     	else
         	printf("%s\n", pwd);
-	}
 }
 
-void    builtins_env(char **env)
+void    builtin_env(char **env)
 {
 	int	x;
 
 	x = 0;
+	if (env == NULL)
+		perror("env");
 	while (env[x])
 	{
-		printf("%s\n");
+		printf("%s\n", env[x]);
 		x++;
 	}
 }
 
-void	builtins_unset(char **env, char *var)
+void	builtin_unset(char **env, char **argv)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	j = 1;
+	while (env[i] != NULL)
+	{
+		while (argv[j] != NULL)
+		{
+			tmp = ft_strjoin(argv[j], "=");
+			if (ft_strncmp(env[i], tmp, ft_strlen(tmp)) == 0)
+				env = ft_unset_utils(env, argv[j], i);
+			j++;
+		}
+		j = 1;
+		i++;
+	}
+}
+
+void	builtin_echo(char	**argv)
 {
 	int	i;
 
-	i = 0;
-	while (env[i])
-	{
-		if(!strncmp(env[i], var, ft_strlen(var)))
-		{
-
-		}
-	}
+	i = 1;
+	while (argv[i])
+		printf("%s\n", argv[i++]);
 }
+	 /*while (env[i])
+		{
+	 	j = 1;
+	 	while (argv[j])
+	 	{
+	 		if(!strncmp(env[i], argv[j], ft_strlen_env(env[i])))
+	 		{
+	 			env = ft_unset_utils(env, argv[j], i);
+	 		}
+	 		j++;
+	 	}
+	 	i++;
+	 	}*/

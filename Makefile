@@ -16,7 +16,11 @@ CFLAGS     =     -Wall -Wextra -Werror
 
 LIBFT    =    libft/libft.a
 
-SRCS     =  test1.c \
+SRCS     =  minishell.c \
+			builtin_1.c \
+			builtin_2.c \
+			new_env.c \
+			minishell_utils.c \
 			get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c \
 											

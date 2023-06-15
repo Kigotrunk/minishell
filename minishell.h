@@ -21,11 +21,21 @@
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
 
-void    builtins_cd(const char *path);
-void    builtins_pwd(char **cmd);
+//is_builtin && called ft_builtins
 int     builtin(char *cmd);
 void    do_builtin(char **cmd, char **env);
-char    **new_env(char **envp);
-void    builtins_env(char **envp);
+
+//ft_builtin
+void    builtin_cd(const char *path);
+void    builtin_pwd(char **cmd);
+void    builtin_env(char **envp);
+void	builtin_unset(char **env, char **argv);
+void	builtin_echo();
+
+//ft_utils
+char    **cpy_env(char **envp);
+char	**ft_unset_utils(char **env, char	*var, int index);
+int		ft_strlen_env(char *env);
+void	ft_free_tab(char **tab);
 
 #endif

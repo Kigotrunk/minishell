@@ -17,31 +17,16 @@ int	main(int argc, char **argv, char **envp)
     char    *tmp;
     char    **cmd;
     char    **env;
-	int		x;
 
-	
+	(void)argc;
+    (void)argv;
 	write(1, "~$ ", 3);
+    env = cpy_env(envp);
     while ((tmp = get_next_line(0)))
     {
-		x = 0;
-        //printf("cmd %s\n", tmp);
-		
-        /*if (cmd == EOF)
-        {
-            write(1, "exit\n", 5);
-            exit(1);
-        }*/
         cmd = ft_split(tmp, ' ');
-        env = new_env(envp);
-		while (cmd[x])
-		{
-			printf("%s\n", cmd[x]);
-			x++;
-		}
         if (builtin(cmd[0]) == 1)
             do_builtin(cmd, env);
-        /*else
-            pipex();*/
 		write(1, "~$ ", 3);
     }
     

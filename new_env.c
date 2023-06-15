@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char    **new_env(char **envp)
+#include "minishell.h"
+
+char    **cpy_env(char **envp)
 {
     char    **env;
     int     i;
+
+    i = 0;
     while (envp[i])
         i++;
     env = malloc((i + 1) * sizeof(char *));
@@ -25,8 +29,9 @@ char    **new_env(char **envp)
     i = 0;
     while (envp[i])
     {
-        env[i] = envp[i];
+        env[i] = ft_strdup(envp[i]);
         i++;
     }
+    env[i] = NULL;
     return (env);
 }
